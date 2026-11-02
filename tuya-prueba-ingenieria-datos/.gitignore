@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+*.db
+*_base64.html
+*_base64.htm
+ejercicio_4_html_base64/salida/
+reporte*.json

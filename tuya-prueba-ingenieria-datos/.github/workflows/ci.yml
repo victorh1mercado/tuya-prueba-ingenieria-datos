@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Ejercicio 1 - normalizador de teléfonos
+        working-directory: ejercicio_1_dataset_telefonos
+        run: python -m unittest discover -s tests -v
+
+      - name: Ejercicio 3 - rachas (SQLite)
+        working-directory: ejercicio_3_rachas
+        run: |
+          pip install -r requirements.txt
+          python -m unittest discover -s tests -v
+          python rachas.py --fecha-base 2024-12-31 --n 3
+
+      - name: Ejercicio 4 - HTML a base64 (solo stdlib)
+        working-directory: ejercicio_4_html_base64
+        run: |
+          python -m unittest discover -s tests -v
+          python -m html_base64 examples/sitio --output-dir /tmp/salida || true
